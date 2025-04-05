@@ -1,6 +1,6 @@
 {
   "name": "@lucidlayer/reflex",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Reflex CLI, Simulate real users and catch broken UX before launch.",
   "main": "index.js",
   "scripts": {
