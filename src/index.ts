@@ -14,7 +14,8 @@ dotenv.config();
 import { execSync } from "child_process";
 
 try {
-  execSync("npx playwright install", { stdio: "ignore" });
+  console.log("Checking Playwright browsers...");
+  execSync("npx playwright install", { stdio: "inherit" });
 } catch (e) {
   console.warn("Warning: Playwright browsers could not be auto-installed. Please run 'npx playwright install' manually.");
 }
@@ -36,8 +37,17 @@ program
 const options = program.opts();
 const targetUrl = program.args[0];
 
-const apiKey = options.apiKey || process.env.OPENROUTER_API_KEY || "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";
+const apiKey = options.apiKey || process.env.OPENROUTER_API_KEY;
 const model = options.model;
+
+if (!apiKey) {
+  console.error("\n[Reflex CLI] ERROR: No OpenRouter API key found.");
+  console.error("Please set it via --apiKey flag or in a .env file as OPENROUTER_API_KEY.");
+  console.error("Get your key at https://openrouter.ai\n");
+  process.exit(1);
+}
+
+console.log(`[Reflex CLI] Using model: ${model}`);
 
 async function run() {
   const spinner = ora("Launching browser...").start();

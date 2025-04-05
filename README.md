@@ -34,6 +34,29 @@ npx @lucidlayer/reflex http://localhost:3000
 
 ---
 
+### **IMPORTANT: Set your OpenRouter API key**
+
+Reflex CLI requires an **OpenRouter API key** to generate UX feedback.
+
+1. **Get your API key:**  
+   Sign up at [https://openrouter.ai](https://openrouter.ai) and copy your API key.
+
+2. **Create a `.env` file** in your project or home directory with:
+
+```
+OPENROUTER_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+3. **Or pass it as a CLI flag:**
+
+```bash
+uxcheck http://localhost:3000 --apiKey sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+If you don’t set your key, you will get a **401 Unauthorized error**.
+
+---
+
 ### **Usage**
 
 Basic scan:
