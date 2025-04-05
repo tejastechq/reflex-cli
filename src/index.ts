@@ -53,6 +53,16 @@ if (!apiKey) {
 console.log(`[Reflex CLI] Using model: ${model}`);
 
 async function run() {
+  const reflexRoot = path.join(process.cwd(), ".reflex");
+  const reportsDir = path.join(reflexRoot, "reports");
+  const logsDir = path.join(reflexRoot, "logs");
+
+  fs.mkdirSync(reportsDir, { recursive: true });
+  fs.mkdirSync(logsDir, { recursive: true });
+
+  const timestamp = Date.now();
+  const logFile = path.join(logsDir, `log-${timestamp}.txt`);
+
   const spinner = ora("Launching browser...").start();
   let browser: Browser | null = null;
   try {
@@ -173,6 +183,13 @@ ${JSON.stringify(domSummary, null, 2)}
   } catch (error: any) {
     spinner.fail("Error during UX check");
     console.error(error.message || error);
+
+    try {
+      fs.appendFileSync(logFile, `[${new Date().toISOString()}] Error:\n${error.stack || error.message || error}\n`);
+      console.error(`[Reflex CLI] Error details saved to ${logFile}`);
+    } catch (logErr) {
+      console.error("[Reflex CLI] Failed to write error log.");
+    }
   } finally {
     if (browser) {
       await browser.close();
