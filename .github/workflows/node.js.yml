@@ -26,5 +26,5 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - run: npm ci --prefix reflex-cli
-    - run: npm run build --prefix reflex-cli
+    - run: cd reflex-cli && npm ci
+    - run: cd reflex-cli && npm run build
