@@ -10,6 +10,15 @@ import { chromium, Browser, Page } from "playwright";
 
 dotenv.config();
 
+// Auto-install Playwright browsers silently if missing
+import { execSync } from "child_process";
+
+try {
+  execSync("npx playwright install", { stdio: "ignore" });
+} catch (e) {
+  console.warn("Warning: Playwright browsers could not be auto-installed. Please run 'npx playwright install' manually.");
+}
+
 const program = new Command();
 
 program
