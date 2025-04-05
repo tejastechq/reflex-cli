@@ -1,0 +1,35 @@
+{
+  "name": "@lucidlayer/reflex",
+  "version": "1.0.0",
+  "description": "Reflex CLI, Simulate real users and catch broken UX before launch.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "keywords": ["cli", "ux", "ai", "developer-tools", "testing"],
+  "author": "Lucid Layer",
+  "license": "MIT",
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lucidlayer/reflex-cli.git"
+  },
+  "bin": {
+    "uxcheck": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@types/node": "^22.14.0",
+    "axios": "^1.8.4",
+    "chalk": "^5.4.1",
+    "commander": "^13.1.0",
+    "dotenv": "^16.4.7",
+    "ora": "^8.2.0",
+    "playwright": "^1.51.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
