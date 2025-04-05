@@ -8,7 +8,10 @@ import ora from "ora";
 import chalk from "chalk";
 import { chromium, Browser, Page } from "playwright";
 
-dotenv.config();
+dotenv.config({ path: ".env" });
+dotenv.config({ path: ".env.local" });
+dotenv.config({ path: ".env.development" });
+dotenv.config({ path: ".env.production" });
 
 // Auto-install Playwright browsers silently if missing
 import { execSync } from "child_process";
@@ -37,12 +40,12 @@ program
 const options = program.opts();
 const targetUrl = program.args[0];
 
-const apiKey = options.apiKey || process.env.OPENROUTER_API_KEY;
+const apiKey = options.apiKey || process.env.REFLEX_OPENROUTER_API_KEY;
 const model = options.model;
 
 if (!apiKey) {
   console.error("\n[Reflex CLI] ERROR: No OpenRouter API key found.");
-  console.error("Please set it via --apiKey flag or in a .env file as OPENROUTER_API_KEY.");
+  console.error("Please set it via --apiKey flag or in a .env file as REFLEX_OPENROUTER_API_KEY.");
   console.error("Get your key at https://openrouter.ai\n");
   process.exit(1);
 }
