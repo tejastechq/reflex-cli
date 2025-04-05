@@ -11,3 +11,8 @@ coverage/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Internal docs
+../ideas.md
+../reflex.md
+../before-after/
