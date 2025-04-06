@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 import { Command } from "commander";
 import * as dotenv from "dotenv";
+const { version } = require("../package.json");
+
 import axios from "axios";
 import * as fs from "fs";
 import * as path from "path";
@@ -26,6 +28,7 @@ try {
 const program = new Command();
 
 program
+  .version(version)
   .name("uxcheck")
   .description("Run AI-powered UX feedback on your web app")
   .argument("<url>", "URL of the app to scan")
