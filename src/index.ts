@@ -18,11 +18,21 @@ dotenv.config({ path: ".env.production" });
 // Auto-install Playwright browsers silently if missing
 import { execSync } from "child_process";
 
-try {
-  console.log("Checking Playwright browsers...");
-  execSync("npx playwright install", { stdio: "inherit" });
-} catch (e) {
-  console.warn("Warning: Playwright browsers could not be auto-installed. Please run 'npx playwright install' manually.");
+// Skip browser install for --version, --help, or no URL argument
+const skipInstall =
+  process.argv.includes("--version") ||
+  process.argv.includes("-V") ||
+  process.argv.includes("--help") ||
+  process.argv.includes("-h") ||
+  process.argv.length <= 2; // no URL argument provided
+
+if (!skipInstall) {
+  try {
+    console.log("Checking Playwright browsers...");
+    execSync("npx playwright install", { stdio: "inherit" });
+  } catch (e) {
+    console.warn("Warning: Playwright browsers could not be auto-installed. Please run 'npx playwright install' manually.");
+  }
 }
 
 const program = new Command();
@@ -96,10 +106,8 @@ async function run() {
 
     const baseName = `reflex-${timestamp}-${urlSlug}-${goalSlug}-${personaSlug}`;
 
-    fs.mkdirSync("reports", { recursive: true });
-
     const screenshotBuffer = await page.screenshot({ fullPage: false });
-    const screenshotPath = path.join("reports", `${baseName}.png`);
+    const screenshotPath = path.join(reportsDir, `${baseName}.png`);
     fs.writeFileSync(screenshotPath, screenshotBuffer);
 
     const domSummary = await page.evaluate(() => {
@@ -143,10 +151,8 @@ Here is the DOM summary:
 ${JSON.stringify(domSummary, null, 2)}
 `;
 
-    const reportDir = "reports";
-
     if (options.manual) {
-      const promptPath = path.join(reportDir, `${baseName}-prompt.txt`);
+      const promptPath = path.join(reportsDir, `${baseName}-prompt.txt`);
       fs.writeFileSync(promptPath, prompt);
       spinner.succeed(`Prompt saved for manual use: ${promptPath}`);
       return;
@@ -174,11 +180,11 @@ ${JSON.stringify(domSummary, null, 2)}
 
     const feedback = response.data.choices[0].message.content as string;
 
-    const mdPath = path.join(reportDir, `${baseName}.md`);
+    const mdPath = path.join(reportsDir, `${baseName}.md`);
     fs.writeFileSync(mdPath, feedback);
 
     if (options.json) {
-      const jsonPath = path.join(reportDir, `${baseName}.json`);
+      const jsonPath = path.join(reportsDir, `${baseName}.json`);
       fs.writeFileSync(jsonPath, JSON.stringify({ feedback }, null, 2));
     }
 
